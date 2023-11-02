@@ -18,13 +18,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MyHomePage(title: 'Flutter Demo Home Page');
+    return const MyHomePage(title: 'Server Driven UI');
   }
 }
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
-
   final String title;
 
   @override
@@ -38,7 +37,7 @@ class _MyHomePageState extends State<MyHomePage> {
       home: (context) {
         return ServeDynamicUI.fromAssets('assets/json/sample.json');
       },
-      title: 'Flutter Demo',
+      title: 'Server Driven UI',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
         useMaterial3: false,
