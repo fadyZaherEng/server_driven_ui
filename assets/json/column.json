@@ -1,45 +1,43 @@
 {
-  "type": "dy_scaffold",
-  "data": {
-    "key": "123456",
-    "pageTitle": "Flutter Column Screen",
-    "child": {
-      "type": "dy_container",
-      "data": {
-        "key": "123123",
-        "margin": "10",
-        "child": {
-          "type": "dy_column",
-          "data": {
-            "key": "131434",
-            "children": [
-              {
-                "type": "dy_text",
-                "data": {
-                  "key": "123123",
-                  "text": "This is a text in a column",
-                  "style": {
-                    "fontSize": 20,
-                    "fontWeight": "bold"
-                  }
-                }
-              },
-              {
-                "type": "dy_image",
-                "data": {
-                  "key": "212226323233",
-                  "src": "https://freeiconshop.com/wp-content/uploads/edd/image-outline-filled.png",
-                  "height": 250,
-                  "width": 250,
-                  "imageType": "network",
-                  "fit": "fill",
-                  "placeholderImagePath": "assets/images/icon_placeholder.png"
-                }
-              }
-            ]
+  "type": "scaffold",
+  "attributes": {"color": "0x9ff000000"},
+  "body": {
+    "type" : "column",
+    "children":[
+      {
+        "type":"image",
+        "attributes":{
+          "url": "your_image_or_animation_url"
+        }
+      },
+      {
+        "type":"align",
+        "attributes" :{
+          "alignment" : "bottomLeft"
+        },
+        "child" :{
+          "type": "text_widget",
+          "attributes": {
+            "hint":
+            "Text here",
+            "text_style": {
+              "font": "ebGaramond",
+              "font_size": 16,
+              "color": "0xFFFFFFFF"
+            },
+            "padding" :{
+              "bottom" : 40.0
+            }
           }
         }
       }
+
+    ]
+  },
+  "floatingActionButton" : {
+    "type": "floating_action_button",
+    "attributes" : {
+      "icon" : "icon_url_here"
     }
   }
 }
