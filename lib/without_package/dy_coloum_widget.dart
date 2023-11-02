@@ -1,3 +1,5 @@
+// ignore_for_file: empty_catches
+
 import 'package:flutter/material.dart';
 
 Widget? getWidgetFromJson(Map<String, dynamic> json, BuildContext context) {
