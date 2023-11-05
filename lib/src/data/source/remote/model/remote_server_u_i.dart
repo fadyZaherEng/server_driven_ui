@@ -83,13 +83,19 @@ extension StyleExtension on Style {
 extension DateExtension on Date {
   DateModel toDomain() {
     return DateModel(
-        key: key ?? "", text: text ?? "", style: style?.toDomain());
+      style?.toDomain() ?? StyleModel(),
+      key: key ?? "",
+      text: text ?? "",
+    );
   }
 }
 
 extension ChildernExtension on Children {
   ChildrenModel toDomain() {
-    return ChildrenModel(type: type ?? "", date: date?.toDomain());
+    return ChildrenModel(
+      date?.toDomain() ?? DateModel(StyleModel()),
+      type: type ?? "",
+    );
   }
 }
 
@@ -102,10 +108,10 @@ extension ChildernListExtension on List<Children> {
 extension DataExtension on Data {
   DataModel toDomain() {
     return DataModel(
+      children?.toChildrenList() ?? [],
       key: key ?? "",
       mainAxisAlignment: mainAxisAlignment ?? "",
       crossAxisAlignment: crossAxisAlignment ?? "",
-      children: children?.toChildrenList(),
     );
   }
 }
@@ -130,8 +136,8 @@ class Style {
 extension DrivenExtension on RemoteServerUI {
   ServerUI toDomain() {
     return ServerUI(
+      data?.toDomain() ?? DataModel([]),
       type: type ?? "",
-      data: data?.toDomain(),
     );
   }
 }

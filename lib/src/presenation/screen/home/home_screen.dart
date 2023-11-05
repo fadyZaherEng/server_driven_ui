@@ -11,8 +11,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  ServerUI? ui;
-
+  ServerUI ui = ServerUI(DataModel([]));
+  TextEditingController controller = TextEditingController();
   @override
   void initState() {
     initMethod();
@@ -29,26 +29,21 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text("Server Drive UI"),
         centerTitle: true,
       ),
-      body: ui != null
-          ? Container(
-              color: Colors.white,
-              width: MediaQuery.sizeOf(context).width,
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Column(
-                  mainAxisAlignment:
-                      _getMainAlignment(ui?.data?.mainAxisAlignment),
-                  crossAxisAlignment:
-                      _getCrossAlignment(ui?.data?.crossAxisAlignment),
-                  mainAxisSize: MainAxisSize.min,
-                  key: Key(ui!.data!.key),
-                  children: ui!.data!.children!
-                      .map((e) => getWidgetFromJson(e))
-                      .toList(),
-                ),
-              ),
-            )
-          : Container(),
+      body: Container(
+        color: Colors.white,
+        width: MediaQuery.sizeOf(context).width,
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Column(
+            mainAxisAlignment: _getMainAlignment(ui.data.mainAxisAlignment),
+            crossAxisAlignment: _getCrossAlignment(ui.data.crossAxisAlignment),
+            mainAxisSize: MainAxisSize.min,
+            key: Key(ui.data.key),
+            children:
+                ui.data.children.map((e) => getWidgetFromJson(e)).toList(),
+          ),
+        ),
+      ),
     );
   }
 
@@ -57,26 +52,50 @@ class _HomeScreenState extends State<HomeScreen> {
     switch (widgetType) {
       case "dy_text":
         {
-          return _getTextWidget(
-            ui.date ??
-                const DateModel(
-                  key: "key",
-                  text: "text",
-                  style: null,
-                ),
-          );
+          return _getTextWidget(ui.date);
+        }
+      case "dy_date":
+        {
+          return _getDateWidget(ui.date);
+        }
+      case "dy_text_field":
+        {
+          return _getTextFieldWidget(ui.date);
         }
     }
     return Container();
   }
 
-  Text _getTextWidget(DateModel dateModel) {
+  Widget _getTextWidget(DateModel dateModel) {
     return Text(
-      dateModel.text ?? "",
+      dateModel.text,
       style: TextStyle(
-        color: Color(int.parse(dateModel.style?.color ?? "0XFF528346")),
-        fontSize: double.parse(dateModel.style?.fontSize.toString() ?? "16"),
+        color: Color(int.parse(dateModel.style.color)),
+        fontSize: double.parse(dateModel.style.fontSize.toString()),
       ),
+    );
+  }
+
+  Widget _getTextFieldWidget(DateModel dateModel) {
+    controller.text = dateModel.text;
+    return TextFormField(
+        controller: controller,
+        key: Key(dateModel.key),
+        style: TextStyle(
+          color: Color(int.parse(dateModel.style.color)),
+          fontSize: double.parse(dateModel.style.fontSize.toString()),
+        ),
+        decoration: InputDecoration(
+          hintText: dateModel.text,
+        ));
+  }
+
+  Widget _getDateWidget(DateModel dateModel) {
+    return InkWell(
+      onTap: () {
+        _selectDate();
+      },
+      child: const Icon(Icons.date_range),
     );
   }
 
@@ -114,5 +133,36 @@ class _HomeScreenState extends State<HomeScreen> {
         }
     }
     return CrossAxisAlignment.baseline;
+  }
+
+  DateTime? selectedDate = DateTime.now();
+
+  void _selectDate() async {
+    var chosenDateTime = await showDatePicker(
+      context: context,
+      initialDate: selectedDate ?? DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2100),
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+              colorScheme: const ColorScheme.light(primary: Colors.pink)),
+          child: child!,
+        );
+      },
+    );
+    if (chosenDateTime != null) {
+      selectedDate = chosenDateTime;
+      ui.data.children = ui.data.children.map((ChildrenModel e) {
+        if (e.type == "dy_text_field") {
+          e.date.text = chosenDateTime.toString();
+          return e;
+        }
+        return e;
+      }).toList();
+      setState(() {});
+    } else {
+      selectedDate = null;
+    }
   }
 }

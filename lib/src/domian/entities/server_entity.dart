@@ -1,57 +1,57 @@
 class ServerUI {
-  final String type;
-  final DataModel? data;
+  String type;
+  DataModel data;
 
-  const ServerUI({
-    required this.type,
-    required this.data,
+  ServerUI(
+    this.data, {
+    this.type = "",
   });
 }
 
 class DataModel {
-  final String key;
-  final String mainAxisAlignment;
-  final String crossAxisAlignment;
-  final List<ChildrenModel>? children;
+  String key;
+  String mainAxisAlignment;
+  String crossAxisAlignment;
+  List<ChildrenModel> children;
 
-  const DataModel({
-    required this.key,
-    required this.mainAxisAlignment,
-    required this.crossAxisAlignment,
-    required this.children,
+  DataModel(
+    this.children, {
+    this.key = "",
+    this.mainAxisAlignment = "start",
+    this.crossAxisAlignment = "start",
   });
 }
 
 class ChildrenModel {
-  final String type;
-  final DateModel? date;
+  String type;
+  DateModel date;
 
-  const ChildrenModel({
-    required this.type,
-    required this.date,
+  ChildrenModel(
+    this.date, {
+    this.type = "dy_text",
   });
 }
 
 class DateModel {
-  final String key;
-  final String text;
-  final StyleModel? style;
+  String key;
+  String text;
+  StyleModel style;
 
-  const DateModel({
-    required this.key,
-    required this.text,
-    required this.style,
+  DateModel(
+    this.style, {
+    this.key = "",
+    this.text = "Const",
   });
 }
 
 class StyleModel {
-  final String color;
-  final int fontSize;
-  final String fontWeight;
+  String color;
+  int fontSize;
+  String fontWeight;
 
-  const StyleModel({
-    required this.color,
-    required this.fontSize,
-    required this.fontWeight,
+  StyleModel({
+    this.color = "0xFF586392",
+    this.fontSize = 14,
+    this.fontWeight = "normal",
   });
 }
