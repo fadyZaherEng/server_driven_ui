@@ -11,15 +11,17 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  ServerUI ui = ServerUI(DataModel([]));
-  TextEditingController controller = TextEditingController();
+  ServerUI _ui = ServerUI(DataModel([]));
+  final TextEditingController _dateController = TextEditingController();
+  DateTime? _selectedDate = DateTime.now();
+
   @override
   void initState() {
     initMethod();
   }
 
   void initMethod() async {
-    ui = await GetServerDrivenUIUseCase(ServerDrivenUIRepoImpl()).call();
+    _ui = await GetServerDrivenUIUseCase(ServerDrivenUIRepoImpl()).call();
   }
 
   @override
@@ -35,12 +37,12 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Padding(
           padding: const EdgeInsets.all(15.0),
           child: Column(
-            mainAxisAlignment: _getMainAlignment(ui.data.mainAxisAlignment),
-            crossAxisAlignment: _getCrossAlignment(ui.data.crossAxisAlignment),
+            mainAxisAlignment: _getMainAlignment(_ui.data.mainAxisAlignment),
+            crossAxisAlignment: _getCrossAlignment(_ui.data.crossAxisAlignment),
             mainAxisSize: MainAxisSize.min,
-            key: Key(ui.data.key),
+            key: Key(_ui.data.key),
             children:
-                ui.data.children.map((e) => getWidgetFromJson(e)).toList(),
+                _ui.data.children.map((e) => getWidgetFromJson(e)).toList(),
           ),
         ),
       ),
@@ -77,9 +79,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _getTextFieldWidget(DateModel dateModel) {
-    controller.text = dateModel.text;
+    _dateController.text = dateModel.text;
     return TextFormField(
-        controller: controller,
+        controller: _dateController,
         key: Key(dateModel.key),
         style: TextStyle(
           color: Color(int.parse(dateModel.style.color)),
@@ -135,12 +137,10 @@ class _HomeScreenState extends State<HomeScreen> {
     return CrossAxisAlignment.baseline;
   }
 
-  DateTime? selectedDate = DateTime.now();
-
   void _selectDate() async {
     var chosenDateTime = await showDatePicker(
       context: context,
-      initialDate: selectedDate ?? DateTime.now(),
+      initialDate: _selectedDate ?? DateTime.now(),
       firstDate: DateTime.now(),
       lastDate: DateTime(2100),
       builder: (context, child) {
@@ -152,8 +152,8 @@ class _HomeScreenState extends State<HomeScreen> {
       },
     );
     if (chosenDateTime != null) {
-      selectedDate = chosenDateTime;
-      ui.data.children = ui.data.children.map((ChildrenModel e) {
+      _selectedDate = chosenDateTime;
+      _ui.data.children = _ui.data.children.map((ChildrenModel e) {
         if (e.type == "dy_text_field") {
           e.date.text = chosenDateTime.toString();
           return e;
@@ -162,7 +162,7 @@ class _HomeScreenState extends State<HomeScreen> {
       }).toList();
       setState(() {});
     } else {
-      selectedDate = null;
+      _selectedDate = null;
     }
   }
 }
