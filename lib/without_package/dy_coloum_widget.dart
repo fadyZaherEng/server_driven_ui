@@ -6,18 +6,6 @@ Widget? getWidgetFromJson(Map<String, dynamic> json, BuildContext context) {
   final widgetType = json['type'];
   if (widgetType == null) return null;
   switch (widgetType) {
-    // case "align":
-    //   {
-    //     return Align.getAlignWidget(json, context);
-    //   }
-    // case "image":
-    //   {
-    //     return Image.getImageWidget(json, context);
-    //   }
-    // case 'column':
-    //   {
-    //     return Column.getColumnWidget(json, context);
-    //   }
     case "text_widget":
       {
         return _getTextWidget(json, context);

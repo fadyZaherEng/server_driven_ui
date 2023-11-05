@@ -1,0 +1,33 @@
+{
+  "key": "345345",
+  "padding": 10.0,
+  "child": {
+    "type": "dy_column",
+    "data": {
+      "key": "2457231",
+      "mainAxisAlignment": "spaceBetween",
+      "crossAxisAlignment": "start",
+      "children": [
+        {
+          "type": "dy_text",
+          "date": {
+            "key": "2232734233",
+            "text": "Container",
+            "style": {
+              "color": "0xffff0000",
+              "fontSize": 20,
+              "fontWeight": "bold"
+            }
+          }
+        },
+        {
+          "type": "dy_text",
+          "date": {
+            "key": "223667757234",
+            "text": "a widget that holds other widgets"
+          }
+        }
+      ]
+    }
+  }
+}
